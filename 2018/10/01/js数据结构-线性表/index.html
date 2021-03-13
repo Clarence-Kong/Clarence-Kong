@@ -1,0 +1,722 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  
+    <meta name="description" content="个人博客">
+  
+  <meta name="author" content="ClarenceKong">
+  <meta name="keywords" content="博客">
+  
+  <title>js数据结构-线性表 - ClarenceKong&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"clarencekong.cn","root":"/","version":"1.8.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Clarence's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="js数据结构-线性表">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2018-10-01 08:28" pubdate>
+        2018年10月1日 早上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      90
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">js数据结构-线性表</h1>
+            
+            <div class="markdown-body">
+              <h1 id="JavaScript数据结构-线性表"><a href="#JavaScript数据结构-线性表" class="headerlink" title="JavaScript数据结构-线性表"></a>JavaScript数据结构-线性表</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<ol>
+<li>基础知识就像是一座大楼的地基，它决定了我们的技术高度。</li>
+<li>我们应该多掌握一些可移值的技术或者再过十几年应该都不会过时的技术，数据结构与算法就是其中之一。</li>
+</ol>
+</blockquote>
+<p>栈、队列、链表、堆 是数据结构与算法中的基础知识，是程序员的地基。</p>
+<p>笔者写的 <strong>JavaScript 数据结构与算法之美</strong> 系列用的语言是 <strong>JavaScript</strong> ，旨在入门数据结构与算法和方便以后复习。</p>
+<h2 id="1-线性表与非线性表"><a href="#1-线性表与非线性表" class="headerlink" title="1. 线性表与非线性表"></a>1. 线性表与非线性表</h2><p><strong>线性表</strong>（Linear List）：就是数据排成像一条线一样的结构。每个线性表上的数据最多只有前和后两个方向。数组、链表、队列、栈 等就是线性表结构。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12890819-cfe998bce08fae43.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="线性表"></p>
+<p><strong>非线性表</strong>：数据之间并不是简单的前后关系。二叉树、堆、图 就是非线性表。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12890819-9ad7a8944240106b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="非线性表"></p>
+<p>本文主要讲线性表，非线性表会在后面章节讲。</p>
+<h2 id="2-数组"><a href="#2-数组" class="headerlink" title="2. 数组"></a>2. 数组</h2><p><img src="https://upload-images.jianshu.io/upload_images/12890819-3332820f2b3e4df2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="数组"></p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><ul>
+<li>数组 (Array) 是一个有序的数据集合，我们可以通过数组名称 (name) 和索引 (index) 进行访问。</li>
+<li>数组的索引是从 0 开始的。</li>
+</ul>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li><strong>数组是用一组连续的内存空间来存储的</strong>。 所以数组支持 <strong>随机访问</strong>，根据下标随机访问的时间复杂度为 O(1)。</li>
+<li><strong>低效的插入和删除</strong>。 数组为了保持内存数据的连续性，会导致插入、删除这两个操作比较低效，因为底层通常是要进行大量的数据搬移来保持数据的连续性。 插入与删除的时间复杂度如下： 插入：从最好 O(1) ，最坏 O(n) ，平均 O(n) 删除：从最好 O(1) ，最坏 O(n) ，平均 O(n)</li>
+</ul>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>但是因为 JavaScript 是<strong>弱类型</strong>的语言，弱类型则允许隐式类型转换。</p>
+<p><strong>隐式</strong>：是指源码中没有明显的类型转换代码。也就是说，一个变量，可以赋值字符串，也可以赋值数值。</p>
+<figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs openscad"><span class="hljs-built_in">let</span> <span class="hljs-built_in">str</span> = <span class="hljs-string">"string"</span><br><span class="hljs-built_in">str</span> = <span class="hljs-number">123</span> <br>console.<span class="hljs-built_in">log</span>(<span class="hljs-built_in">str</span>)  <span class="hljs-comment">//   123</span><br></code></pre></td></tr></table></figure>
+
+<p>你还可以直接让字符串类型的变量和数值类型的变量相加，虽然得出的最终结果未必是你想象的那样，但一定不会报错。</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs nix"><span class="hljs-keyword">let</span> <span class="hljs-attr">a</span> = <span class="hljs-number">123</span><br><span class="hljs-keyword">let</span> <span class="hljs-attr">b</span> = <span class="hljs-string">"456"</span><br><span class="hljs-keyword">let</span> <span class="hljs-attr">c</span> = a + b<br>// 数值加字符串，结果是字符串<br>console.log(c)  //   <span class="hljs-string">"123456"</span><br></code></pre></td></tr></table></figure>
+
+<p>数组的每一项可以是不同的类型，比如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 数组的类型有 数值、字符串，还可以随意变更类型</span><br><span class="hljs-keyword">const</span> arr = [ <span class="hljs-number">12</span>, <span class="hljs-number">34</span>, <span class="hljs-string">"abc"</span> ]<br>arr[<span class="hljs-number">2</span>] = &#123; <span class="hljs-string">"key"</span>: <span class="hljs-string">"value"</span> &#125;  <span class="hljs-comment">// 把数组的第二项变成对象</span><br>console.<span class="hljs-built_in">log</span>(arr) <span class="hljs-comment">//  [ 12, 34,  &#123; "key": "value"&#125; ]</span><br></code></pre></td></tr></table></figure>
+
+<p>定义的数组的大小是可变的，不像强类型语言，定义某个数组变量的时候就要定义该变量的大小。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">const arr = [ <span class="hljs-number">12</span>, <span class="hljs-number">34</span>, <span class="hljs-string">"abc"</span>] <br>arr.push(&#123; <span class="hljs-string">"key"</span>: <span class="hljs-string">"value"</span> &#125;) <span class="hljs-regexp">//</span> 添加一项 对象<br>consolelog(arr) <span class="hljs-regexp">//</span>  [ <span class="hljs-number">12</span>, <span class="hljs-number">34</span>, <span class="hljs-string">"abc"</span>, &#123; <span class="hljs-string">"key"</span>: <span class="hljs-string">"value"</span> &#125; ]<br></code></pre></td></tr></table></figure>
+
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>JavaScript 原生支持数组，而且提供了很多操作方法，这里不展开讲。</p>
+<h2 id="3-栈"><a href="#3-栈" class="headerlink" title="3. 栈"></a>3. 栈</h2><p><img src="https://upload-images.jianshu.io/upload_images/12890819-6110623f40c1ad86.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="栈"></p>
+<h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><ol>
+<li>后进者先出，先进者后出，简称 <strong>后进先出</strong>（LIFO），这就是典型的<code>栈</code>结构。</li>
+<li>新添加的或待删除的元素都保存在栈的末尾，称作<code>栈顶</code>，另一端就叫<code>栈底</code>。</li>
+<li>在栈里，新元素都靠近栈顶，旧元素都接近栈底。</li>
+<li>从栈的操作特性来看，是一种 <code>操作受限</code>的线性表，只允许在一端插入和删除数据。</li>
+<li>不包含任何元素的栈称为<code>空栈</code>。</li>
+</ol>
+<p>栈也被用在编程语言的编译器和内存中保存变量、方法调用等，比如函数的调用栈。</p>
+<h3 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h3><p>栈的方法：</p>
+<ul>
+<li>push(element)：添加一个（或几个）新元素到栈顶。</li>
+<li>pop()：移除栈顶的元素，同时返回被移除的元素。</li>
+<li>peek()：返回栈顶的元素，不对栈做任何修改。</li>
+<li>isEmpty()：如果栈里没有任何元素就返回 true，否则返回 false。</li>
+<li>clear()：移除栈里的所有元素。</li>
+<li>size()：返回栈里的元素个数。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// Stack类</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Stack</span>(<span class="hljs-params"></span>) </span>&#123;<br>  <span class="hljs-keyword">this</span>.items = [];<br><br>  <span class="hljs-comment">// 添加新元素到栈顶</span><br>  <span class="hljs-keyword">this</span>.push = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">element</span>) </span>&#123;<br>    <span class="hljs-keyword">this</span>.items.push(element);<br>  &#125;;<br>  <span class="hljs-comment">// 移除栈顶元素，同时返回被移除的元素</span><br>  <span class="hljs-keyword">this</span>.pop = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.items.pop();<br>  &#125;;<br>  <span class="hljs-comment">// 查看栈顶元素</span><br>  <span class="hljs-keyword">this</span>.peek = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.items[<span class="hljs-keyword">this</span>.items.length - <span class="hljs-number">1</span>];<br>  &#125;;<br>  <span class="hljs-comment">// 判断是否为空栈</span><br>  <span class="hljs-keyword">this</span>.isEmpty = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.items.length === <span class="hljs-number">0</span>;<br>  &#125;;<br>  <span class="hljs-comment">// 清空栈</span><br>  <span class="hljs-keyword">this</span>.clear = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">this</span>.items = [];<br>  &#125;;<br>  <span class="hljs-comment">// 查询栈的长度</span><br>  <span class="hljs-keyword">this</span>.size = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.items.length;<br>  &#125;;<br>  <span class="hljs-comment">// 打印栈里的元素</span><br>  <span class="hljs-keyword">this</span>.print = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.items.toString());<br>  &#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">// 创建Stack实例</span><br>var <span class="hljs-built_in">stack</span> = <span class="hljs-keyword">new</span> Stack();<br>console.<span class="hljs-built_in">log</span>(<span class="hljs-built_in">stack</span>.isEmpty()); <span class="hljs-comment">// true</span><br><span class="hljs-built_in">stack</span>.push(<span class="hljs-number">5</span>); <span class="hljs-comment">// undefined</span><br><span class="hljs-built_in">stack</span>.push(<span class="hljs-number">8</span>); <span class="hljs-comment">// undefined</span><br>console.<span class="hljs-built_in">log</span>(<span class="hljs-built_in">stack</span>.<span class="hljs-built_in">peek</span>()); <span class="hljs-comment">// 8</span><br><span class="hljs-built_in">stack</span>.push(<span class="hljs-number">11</span>); <span class="hljs-comment">// undefined</span><br>console.<span class="hljs-built_in">log</span>(<span class="hljs-built_in">stack</span>.<span class="hljs-built_in">size</span>()); <span class="hljs-comment">// 3</span><br>console.<span class="hljs-built_in">log</span>(<span class="hljs-built_in">stack</span>.isEmpty()); <span class="hljs-comment">// false</span><br><span class="hljs-built_in">stack</span>.push(<span class="hljs-number">15</span>); <span class="hljs-comment">// undefined</span><br><span class="hljs-built_in">stack</span>.pop(); <span class="hljs-comment">// 15</span><br>console.<span class="hljs-built_in">log</span>(<span class="hljs-built_in">stack</span>.<span class="hljs-built_in">size</span>()); <span class="hljs-comment">// 3</span><br><span class="hljs-built_in">stack</span>.<span class="hljs-built_in">print</span>(); <span class="hljs-comment">// 5,8,11</span><br><span class="hljs-built_in">stack</span>.<span class="hljs-built_in">clear</span>(); <span class="hljs-comment">// undefined</span><br>console.<span class="hljs-built_in">log</span>(<span class="hljs-built_in">stack</span>.<span class="hljs-built_in">size</span>()); <span class="hljs-comment">// 0</span><br></code></pre></td></tr></table></figure>
+
+<p>栈的应用实例：<a href="https://github.com/biaochenxuying/blog/issues/30" target="_blank" rel="noopener">JavaScript 数据结构与算法之美 - 实现一个前端路由，如何实现浏览器的前进与后退 ？</a></p>
+<h2 id="4-队列"><a href="#4-队列" class="headerlink" title="4. 队列"></a>4. 队列</h2><p><img src="https://upload-images.jianshu.io/upload_images/12890819-e16bb0e8305caa6b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="队列"></p>
+<h3 id="普通队列"><a href="#普通队列" class="headerlink" title="普通队列"></a>普通队列</h3><h4 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h4><ul>
+<li>队列是遵循 FIFO（First In First Out，<strong>先进先出</strong>）原则的一组有序的项。</li>
+<li>队列在尾部添加新元素，并从顶部移除元素。</li>
+<li>最新添加的元素必须排在队列的末尾。</li>
+<li>队列只有 入队 push() 和出队 pop()。</li>
+</ul>
+<h4 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h4><p>队列里面有一些声明的辅助方法：</p>
+<ul>
+<li>enqueue(element)：向队列尾部添加新项。</li>
+<li>dequeue()：移除队列的第一项，并返回被移除的元素。</li>
+<li>front()：返回队列中第一个元素，队列不做任何变动。</li>
+<li>isEmpty()：如果队列中不包含任何元素，返回 true，否则返回 false。</li>
+<li>size()：返回队列包含的元素个数，与数组的 length 属性类似。</li>
+<li>print()：打印队列中的元素。</li>
+<li>clear()：清空整个队列。</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// Queue类</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Queue</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">this</span>.items = [];<br><br>    <span class="hljs-comment">// 向队列尾部添加元素</span><br>    <span class="hljs-keyword">this</span>.enqueue = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">element</span>) </span>&#123;<br>        <span class="hljs-keyword">this</span>.items.push(element);<br>    &#125;;<br><br>    <span class="hljs-comment">// 移除队列的第一个元素，并返回被移除的元素</span><br>    <span class="hljs-keyword">this</span>.dequeue = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.items.shift();<br>    &#125;;<br><br>    <span class="hljs-comment">// 返回队列的第一个元素</span><br>    <span class="hljs-keyword">this</span>.front = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.items[<span class="hljs-number">0</span>];<br>    &#125;;<br><br>    <span class="hljs-comment">// 判断是否为空队列</span><br>    <span class="hljs-keyword">this</span>.isEmpty = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.items.length === <span class="hljs-number">0</span>;<br>    &#125;;<br><br>    <span class="hljs-comment">// 获取队列的长度</span><br>    <span class="hljs-keyword">this</span>.size = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.items.length;<br>    &#125;;<br><br>    <span class="hljs-comment">// 清空队列</span><br>    <span class="hljs-keyword">this</span>.clear = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">this</span>.items = [];<br>    &#125;;<br><br>    <span class="hljs-comment">// 打印队列里的元素</span><br>    <span class="hljs-keyword">this</span>.print = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.items.toString());<br>    &#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs lasso"><span class="hljs-comment">// 创建Queue实例</span><br><span class="hljs-built_in">var</span> <span class="hljs-built_in">queue</span> = <span class="hljs-literal">new</span> <span class="hljs-built_in">Queue</span>();<br>console.<span class="hljs-keyword">log</span>(<span class="hljs-built_in">queue</span>.isEmpty()); <span class="hljs-comment">// true</span><br><span class="hljs-built_in">queue</span>.enqueue(<span class="hljs-string">'John'</span>); <span class="hljs-comment">// undefined</span><br><span class="hljs-built_in">queue</span>.enqueue(<span class="hljs-string">'Jack'</span>); <span class="hljs-comment">// undefined</span><br><span class="hljs-built_in">queue</span>.enqueue(<span class="hljs-string">'Camila'</span>); <span class="hljs-comment">// undefined</span><br><span class="hljs-built_in">queue</span>.print(); <span class="hljs-comment">// "John,Jack,Camila"</span><br>console.<span class="hljs-keyword">log</span>(<span class="hljs-built_in">queue</span>.size()); <span class="hljs-comment">// 3</span><br>console.<span class="hljs-keyword">log</span>(<span class="hljs-built_in">queue</span>.isEmpty()); <span class="hljs-comment">// false</span><br><span class="hljs-built_in">queue</span>.dequeue(); <span class="hljs-comment">// "John"</span><br><span class="hljs-built_in">queue</span>.dequeue(); <span class="hljs-comment">// "Jack"</span><br><span class="hljs-built_in">queue</span>.print(); <span class="hljs-comment">// "Camila"</span><br><span class="hljs-built_in">queue</span>.clear(); <span class="hljs-comment">// undefined</span><br>console.<span class="hljs-keyword">log</span>(<span class="hljs-built_in">queue</span>.size()); <span class="hljs-comment">// 0</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="优先队列"><a href="#优先队列" class="headerlink" title="优先队列"></a>优先队列</h3><h4 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h4><p>优先队列中元素的添加和移除是依赖<code>优先级</code>的。</p>
+<p><strong>应用</strong></p>
+<ul>
+<li>一个现实的例子就是机场登机的顺序。头等舱和商务舱乘客的优先级要高于经济舱乘客。</li>
+<li>再比如：火车，老年人、孕妇和带小孩的乘客是享有优先检票权的。</li>
+</ul>
+<p><strong>优先队列分为两类</strong></p>
+<ul>
+<li>最小优先队列</li>
+<li>最大优先队列</li>
+</ul>
+<p>最小优先队列是把优先级的值最小的元素被放置到队列的最前面（代表最高的优先级）。 比如：有四个元素：”John”, “Jack”, “Camila”, “Tom”，他们的优先级值分别为 4，3，2，1。 那么最小优先队列排序应该为：”Tom”，”Camila”，”Jack”，”John”。</p>
+<p>最大优先队列正好相反，把优先级值最大的元素放置在队列的最前面。 以上面的为例，最大优先队列排序应该为：”John”, “Jack”, “Camila”, “Tom”。</p>
+<p><strong>实现</strong></p>
+<p>实现一个优先队列，有两种选项：</p>
+<ul>
+<li><ol>
+<li>设置优先级，根据优先级正确添加元素，然后和普通队列一样正常移除</li>
+</ol>
+</li>
+<li><ol>
+<li>设置优先级，和普通队列一样正常按顺序添加，然后根据优先级移除</li>
+</ol>
+</li>
+</ul>
+<p>这里最小优先队列和最大优先队列我都采用第一种方式实现，大家可以尝试一下第二种。</p>
+<p>下面只重写 enqueue() 方法和 print() 方法，其他方法和上面的普通队列完全相同。</p>
+<p><strong>实现最小优先队列</strong></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// 定义最小优先队列</span><br>function MinPriorityQueue () &#123;<br>  <span class="hljs-keyword">this</span>.items = [];<br><br>  <span class="hljs-keyword">this</span>.enqueue = enqueue;<br>  <span class="hljs-keyword">this</span>.dequeue = dequeue;<br>  <span class="hljs-keyword">this</span>.front = front;<br>  <span class="hljs-keyword">this</span>.isEmpty = isEmpty;<br>  <span class="hljs-keyword">this</span>.size = size;<br>  <span class="hljs-keyword">this</span>.clear = clear;<br>  <span class="hljs-keyword">this</span>.print = print;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>实现最小优先队列 enqueue() 方法和 print() 方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 优先队列添加元素，要根据优先级判断在队列中的插入顺序</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">enqueue</span> (<span class="hljs-params">element, priority</span>) </span>&#123;<br>  <span class="hljs-keyword">var</span> queueElement = &#123;<br>    element: element,<br>    priority: priority<br>  &#125;;<br><br>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.isEmpty()) &#123;<br>    <span class="hljs-keyword">this</span>.items.push(queueElement);<br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-keyword">var</span> added = <span class="hljs-literal">false</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-keyword">this</span>.size(); i++) &#123;<br>      <span class="hljs-keyword">if</span> (queueElement.priority &lt; <span class="hljs-keyword">this</span>.items[i].priority) &#123;<br>        <span class="hljs-keyword">this</span>.items.splice(i, <span class="hljs-number">0</span>, queueElement);<br>        added = <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">break</span> ;<br>      &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (!added) &#123;<br>      <span class="hljs-keyword">this</span>.items.push(queueElement);<br>    &#125;<br>  &#125;<br>&#125;<br><br><span class="hljs-comment">// 打印队列里的元素</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">print</span> (<span class="hljs-params"></span>) </span>&#123;<br>  <span class="hljs-keyword">var</span> strArr = [];<br><br>  strArr = <span class="hljs-keyword">this</span>.items.map(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">item</span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">$&#123;item.element&#125;</span>-&gt;<span class="hljs-subst">$&#123;item.priority&#125;</span>`</span>;<br>  &#125;);<br><br>  <span class="hljs-built_in">console</span>.log(strArr.toString());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>最小优先队列测试：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">// 创建最小优先队列minPriorityQueue实例</span><br>var minPriorityQueue = <span class="hljs-keyword">new</span> MinPriorityQueue();<br><br>console.<span class="hljs-built_in">log</span>(minPriorityQueue.isEmpty());     <span class="hljs-comment">// true</span><br>minPriorityQueue.enqueue(<span class="hljs-string">"John"</span>, <span class="hljs-number">1</span>);         <span class="hljs-comment">// undefined</span><br>minPriorityQueue.enqueue(<span class="hljs-string">"Jack"</span>, <span class="hljs-number">3</span>);         <span class="hljs-comment">// undefined</span><br>minPriorityQueue.enqueue(<span class="hljs-string">"Camila"</span>, <span class="hljs-number">2</span>);       <span class="hljs-comment">// undefined</span><br>minPriorityQueue.enqueue(<span class="hljs-string">"Tom"</span>, <span class="hljs-number">3</span>);          <span class="hljs-comment">// undefined</span><br>minPriorityQueue.<span class="hljs-built_in">print</span>();                    <span class="hljs-comment">// "John-&gt;1,Camila-&gt;2,Jack-&gt;3,Tom-&gt;3"</span><br>console.<span class="hljs-built_in">log</span>(minPriorityQueue.<span class="hljs-built_in">size</span>());        <span class="hljs-comment">// 4</span><br>console.<span class="hljs-built_in">log</span>(minPriorityQueue.isEmpty());     <span class="hljs-comment">// false</span><br>minPriorityQueue.dequeue();                  <span class="hljs-comment">// &#123;element: "John", priority: 1&#125;</span><br>minPriorityQueue.dequeue();                  <span class="hljs-comment">// &#123;element: "Camila", priority: 2&#125;</span><br>minPriorityQueue.<span class="hljs-built_in">print</span>();                    <span class="hljs-comment">// "Jack-&gt;3,Tom-&gt;3"</span><br>minPriorityQueue.<span class="hljs-built_in">clear</span>();                    <span class="hljs-comment">// undefined</span><br>console.<span class="hljs-built_in">log</span>(minPriorityQueue.<span class="hljs-built_in">size</span>());        <span class="hljs-comment">// 0</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>实现最大优先队列</strong></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// 最大优先队列 MaxPriorityQueue 类</span><br>function MaxPriorityQueue () &#123;<br>  <span class="hljs-keyword">this</span>.items = [];<br><br>  <span class="hljs-keyword">this</span>.enqueue = enqueue;<br>  <span class="hljs-keyword">this</span>.dequeue = dequeue;<br>  <span class="hljs-keyword">this</span>.front = front;<br>  <span class="hljs-keyword">this</span>.isEmpty = isEmpty;<br>  <span class="hljs-keyword">this</span>.size = size;<br>  <span class="hljs-keyword">this</span>.clear = clear;<br>  <span class="hljs-keyword">this</span>.print = print;<br>&#125;<br><br><span class="hljs-comment">// 优先队列添加元素，要根据优先级判断在队列中的插入顺序</span><br>function enqueue (element, priority) &#123;<br>  <span class="hljs-keyword">var</span> queueElement = &#123;<br>    element: element,<br>    priority: priority<br>  &#125;;<br><br>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.isEmpty()) &#123;<br>    <span class="hljs-keyword">this</span>.items.push(queueElement);<br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-keyword">var</span> added = <span class="hljs-literal">false</span>;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-keyword">this</span>.items.length; i++) &#123;<br>      <span class="hljs-comment">// 注意，只需要将这里改为大于号就可以了</span><br>      <span class="hljs-keyword">if</span> (queueElement.priority &gt; <span class="hljs-keyword">this</span>.items[i].priority) &#123;<br>        <span class="hljs-keyword">this</span>.items.splice(i, <span class="hljs-number">0</span>, queueElement);<br>        added = <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">break</span> ;<br>      &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (!added) &#123;<br>      <span class="hljs-keyword">this</span>.items.push(queueElement);<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>最大优先队列测试：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">// 创建最大优先队列maxPriorityQueue实例</span><br>var maxPriorityQueue = <span class="hljs-keyword">new</span> MaxPriorityQueue();<br><br>console.<span class="hljs-built_in">log</span>(maxPriorityQueue.isEmpty());     <span class="hljs-comment">// true</span><br>maxPriorityQueue.enqueue(<span class="hljs-string">"John"</span>, <span class="hljs-number">1</span>);         <span class="hljs-comment">// undefined</span><br>maxPriorityQueue.enqueue(<span class="hljs-string">"Jack"</span>, <span class="hljs-number">3</span>);         <span class="hljs-comment">// undefined</span><br>maxPriorityQueue.enqueue(<span class="hljs-string">"Camila"</span>, <span class="hljs-number">2</span>);       <span class="hljs-comment">// undefined</span><br>maxPriorityQueue.enqueue(<span class="hljs-string">"Tom"</span>, <span class="hljs-number">3</span>);          <span class="hljs-comment">// undefined</span><br>maxPriorityQueue.<span class="hljs-built_in">print</span>();                    <span class="hljs-comment">// "Jack-&gt;3,Tom-&gt;3,Camila-&gt;2,John-&gt;1"</span><br>console.<span class="hljs-built_in">log</span>(maxPriorityQueue.<span class="hljs-built_in">size</span>());        <span class="hljs-comment">// 4</span><br>console.<span class="hljs-built_in">log</span>(maxPriorityQueue.isEmpty());     <span class="hljs-comment">// false</span><br>maxPriorityQueue.dequeue();                  <span class="hljs-comment">// &#123;element: "Jack", priority: 3&#125;</span><br>maxPriorityQueue.dequeue();                  <span class="hljs-comment">// &#123;element: "Tom", priority: 3&#125;</span><br>maxPriorityQueue.<span class="hljs-built_in">print</span>();                    <span class="hljs-comment">// "Camila-&gt;2,John-&gt;1"</span><br>maxPriorityQueue.<span class="hljs-built_in">clear</span>();                    <span class="hljs-comment">// undefined</span><br>console.<span class="hljs-built_in">log</span>(maxPriorityQueue.<span class="hljs-built_in">size</span>());        <span class="hljs-comment">// 0</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h3><h4 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h4><p>循环队列，顾名思义，它长得像一个环。把它想像成一个圆的钟就对了。</p>
+<p>关键是：确定好队空和队满的判定条件。</p>
+<p>循环队列的一个例子就是击鼓传花游戏（Hot Potato）。在这个游戏中，孩子们围城一个圆圈，击鼓的时候把花尽快的传递给旁边的人。某一时刻击鼓停止，这时花在谁的手里，谁就退出圆圈直到游戏结束。重复这个过程，直到只剩一个孩子（胜者）。</p>
+<p>下面我们在普通队列的基础上，实现一个模拟的击鼓传花游戏，下面只写击鼓传花的代码片段：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 实现击鼓传花</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hotPotato</span> (<span class="hljs-params">nameList, num</span>) </span>&#123;<br>  <span class="hljs-keyword">var</span> queue = <span class="hljs-keyword">new</span> Queue();<br><br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nameList.length; i++) &#123;<br>    queue.enqueue(nameList[i]);<br>  &#125;<br><br>  <span class="hljs-keyword">var</span> eliminated = <span class="hljs-string">''</span>;<br><br>  <span class="hljs-keyword">while</span> (queue.size() &gt; <span class="hljs-number">1</span>) &#123;<br>    <span class="hljs-comment">// 循环 num 次，队首出来去到队尾</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; num; i++) &#123;<br>      queue.enqueue(queue.dequeue());<br>    &#125;<br>    <span class="hljs-comment">// 循环 num 次过后，移除当前队首的元素</span><br>    eliminated = queue.dequeue();<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">$&#123;eliminated&#125;</span> 在击鼓传花中被淘汰！`</span>);<br>  &#125;<br><br>  <span class="hljs-comment">// 最后只剩一个元素</span><br>  <span class="hljs-keyword">return</span> queue.dequeue();<br>&#125;<br><br><span class="hljs-comment">// 测试</span><br><span class="hljs-keyword">var</span> nameList = [<span class="hljs-string">"John"</span>, <span class="hljs-string">"Jack"</span>, <span class="hljs-string">"Camila"</span>, <span class="hljs-string">"Ingrid"</span>, <span class="hljs-string">"Carl"</span>];<br><span class="hljs-keyword">var</span> winner = hotPotato(nameList, <span class="hljs-number">10</span>);<br><span class="hljs-built_in">console</span>.log(<span class="hljs-string">`最后的胜利者是：<span class="hljs-subst">$&#123;winner&#125;</span>`</span>);<br></code></pre></td></tr></table></figure>
+
+<p>执行结果为：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-comment">// John 在击鼓传花中被淘汰！</span><br><span class="hljs-comment">// Ingrid 在击鼓传花中被淘汰！ </span><br><span class="hljs-comment">// Jack 在击鼓传花中被淘汰！</span><br><span class="hljs-comment">// Camila 在击鼓传花中被淘汰！</span><br><span class="hljs-comment">// 最后的胜利者是：Carl</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>队列小结</strong></p>
+<p>一些具有某些额外特性的队列，比如：循环队列、阻塞队列、并发队列。它们在很多偏底层系统、框架、中间件的开发中，起着关键性的作用。</p>
+<p>以上队列的代码要感谢 <a href="https://github.com/leocoder351/data-structure" target="_blank" rel="noopener">leocoder351</a>。</p>
+<h2 id="5-链表"><a href="#5-链表" class="headerlink" title="5. 链表"></a>5. 链表</h2><h3 id="定义-5"><a href="#定义-5" class="headerlink" title="定义"></a>定义</h3><ul>
+<li>链表存储有序的元素集合，但不同于数组，链表中的元素在内存中并不是连续放置的，它是通过 <strong>指针</strong> 将 <strong>零散的内存块</strong> 串连起来的。</li>
+<li>每个元素由一个存储元素本身的 <strong>节点</strong> 和一个指向下一个元素的 <strong>引用</strong>（也称指针或链接）组成。</li>
+</ul>
+<p>简单的链接结构图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12890819-a4cb793a9276d358.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="单链表结构图"></p>
+<p>其中，data 中保存着数据，next 保存着下一个链表的引用。 上图中，我们说 data2 跟在 data1 后面，而不是说 data2 是链表中的第二个元素。值得注意的是，我们将链表的尾元素指向了 null 节点，表示链接结束的位置。</p>
+<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><ul>
+<li><strong>链表是通过指针将零散的内存块串连起来的</strong>。 所以链表不支持 <strong>随机访问</strong>，如果要找特定的项，只能从头开始遍历，直到找到某个项。 所以访问的时间复杂度为 O(n)。</li>
+<li><strong>高效的插入和删除</strong>。 链表中插入或者删除一个数据，我们并不需要为了保持内存的连续性而搬移结点，因为链表的存储空间本身就不是连续的，只需要考虑相邻结点的指针改变。 所以，在链表中插入和删除一个数据是非常快速的，时间复杂度为 O(1)。</li>
+</ul>
+<p>三种最常见的链表结构，它们分别是：</p>
+<ul>
+<li>单链表</li>
+<li>双向链表</li>
+<li>循环链表</li>
+</ul>
+<h3 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h3><h4 id="定义-6"><a href="#定义-6" class="headerlink" title="定义"></a>定义</h4><p><img src="https://upload-images.jianshu.io/upload_images/12890819-a4cb793a9276d358.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="单链表结构图"></p>
+<p>由于链表的起始点的确定比较麻烦，因此很多链表的实现都会在链表的最前面添加一个特殊的节点，称为 <strong>头节点</strong>，表示链表的头部。</p>
+<p>经过改造，链表就成了如下的样子：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12890819-0628fa35ba0f4205.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="有头节点的链表"></p>
+<p>针对链表的插入和删除操作，我们只需要考虑相邻结点的指针改变，所以插入与删除的时间复杂度为 O(1)。</p>
+<p>在 d2 节点后面插入 d4 节点：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12890819-06877f74051c3deb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="插入节点"></p>
+<p>删除 d4 节点：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12890819-401fa510e1738758.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="删除节点"></p>
+<h4 id="实现-3"><a href="#实现-3" class="headerlink" title="实现"></a>实现</h4><ul>
+<li>Node 类用来表示节点。</li>
+<li>LinkedList 类提供插入节点、删除节点等一些操作。</li>
+</ul>
+<p>单向链表的八种常用操作：</p>
+<ul>
+<li>append(element)：尾部添加元素。</li>
+<li>insert(position, element)：特定位置插入一个新的项。</li>
+<li>removeAt(position)：特定位置移除一项。</li>
+<li>remove(element)：移除一项。</li>
+<li>indexOf(element)：返回元素在链表中的索引。如果链表中没有该元素则返回 -1。</li>
+<li>isEmpty()：如果链表中不包含任何元素，返回 true，如果链表长度大于 0，返回 false。</li>
+<li>size()：返回链表包含的元素个数，与数组的 length 属性类似。</li>
+<li>getHead()：返回链表的第一个元素。</li>
+<li>toString()：由于链表使用了 Node 类，就需要重写继承自 JavaScript 对象默认的 toString() 方法，让其只输出元素的值。</li>
+<li>print()：打印链表的所有元素。</li>
+</ul>
+<p>具体代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 单链表</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SinglyLinkedList</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-comment">// 节点</span><br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Node</span>(<span class="hljs-params">element</span>) </span>&#123;<br>        <span class="hljs-keyword">this</span>.element = element; <span class="hljs-comment">// 当前节点的元素</span><br>        <span class="hljs-keyword">this</span>.next = <span class="hljs-literal">null</span>; <span class="hljs-comment">// 下一个节点指针</span><br>    &#125;<br><br>    <span class="hljs-keyword">var</span> length = <span class="hljs-number">0</span>; <span class="hljs-comment">// 链表的长度</span><br>    <span class="hljs-keyword">var</span> head = <span class="hljs-literal">null</span>; <span class="hljs-comment">// 链表的头部节点</span><br><br>    <span class="hljs-comment">// 向链表尾部添加一个新的节点</span><br>    <span class="hljs-keyword">this</span>.append = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">element</span>) </span>&#123;<br>        <span class="hljs-keyword">var</span> node = <span class="hljs-keyword">new</span> Node(element);<br>        <span class="hljs-keyword">var</span> currentNode = head;<br><br>        <span class="hljs-comment">// 判断是否为空链表</span><br>        <span class="hljs-keyword">if</span> (head === <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-comment">// 是空链表，就把当前节点作为头部节点</span><br>            head = node;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-comment">// 从 head 开始一直找到最后一个 node</span><br>            <span class="hljs-keyword">while</span> (currentNode.next) &#123;<br>                <span class="hljs-comment">// 后面还有 node</span><br>                currentNode = currentNode.next;<br>            &#125;<br>            <span class="hljs-comment">// 把当前节点的 next 指针 指向 新的节点</span><br>            currentNode.next = node;<br>        &#125;<br>        <span class="hljs-comment">// 链表的长度加 1</span><br>        length++;<br>    &#125;;<br><br>    <span class="hljs-comment">// 向链表特定位置插入一个新节点</span><br>    <span class="hljs-keyword">this</span>.insert = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">position, element</span>) </span>&#123;<br>        <span class="hljs-keyword">if</span> (position &lt; <span class="hljs-number">0</span> &amp;&amp; position &gt; length) &#123;<br>            <span class="hljs-comment">// 越界</span><br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">var</span> node = <span class="hljs-keyword">new</span> Node(element);<br>            <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">var</span> currentNode = head;<br>            <span class="hljs-keyword">var</span> previousNode;<br><br>            <span class="hljs-comment">// 在最前插入节点</span><br>            <span class="hljs-keyword">if</span> (position === <span class="hljs-number">0</span>) &#123;<br>                node.next = currentNode;<br>                head = node;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-comment">// 循环找到位置</span><br>                <span class="hljs-keyword">while</span> (index &lt; position) &#123;<br>                    index++;<br>                    previousNode = currentNode;<br>                    currentNode = currentNode.next;<br>                &#125;<br>                <span class="hljs-comment">// 把前一个节点的指针指向新节点，新节点的指针指向当前节点，保持连接性</span><br>                previousNode.next = node;<br>                node.next = currentNode;<br>            &#125;<br><br>            length++;<br><br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        &#125;<br>    &#125;;<br><br>    <span class="hljs-comment">// 从链表的特定位置移除一项</span><br>    <span class="hljs-keyword">this</span>.removeAt = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">position</span>) </span>&#123;<br>        <span class="hljs-keyword">if</span> ((position &lt; <span class="hljs-number">0</span> &amp;&amp; position &gt;= length) || length === <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-comment">// 越界</span><br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">var</span> currentNode = head;<br>            <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">var</span> previousNode;<br><br>            <span class="hljs-keyword">if</span> (position === <span class="hljs-number">0</span>) &#123;<br>                head = currentNode.next;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-comment">// 循环找到位置</span><br>                <span class="hljs-keyword">while</span> (index &lt; position) &#123;<br>                    index++;<br>                    previousNode = currentNode;<br>                    currentNode = currentNode.next;<br>                &#125;<br>                <span class="hljs-comment">// 把当前节点的 next 指针 指向 当前节点的 next 指针，即是 删除了当前节点</span><br>                previousNode.next = currentNode.next;<br>            &#125;<br><br>            length--;<br><br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        &#125;<br>    &#125;;<br><br>    <span class="hljs-comment">// 从链表中移除指定项</span><br>    <span class="hljs-keyword">this</span>.remove = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">element</span>) </span>&#123;<br>        <span class="hljs-keyword">var</span> index = <span class="hljs-keyword">this</span>.indexOf(element);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.removeAt(index);<br>    &#125;;<br><br>    <span class="hljs-comment">// 返回元素在链表的索引，如果链表中没有该元素则返回 -1</span><br>    <span class="hljs-keyword">this</span>.indexOf = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">element</span>) </span>&#123;<br>        <span class="hljs-keyword">var</span> currentNode = head;<br>        <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;<br><br>        <span class="hljs-keyword">while</span> (currentNode) &#123;<br>            <span class="hljs-keyword">if</span> (currentNode.element === element) &#123;<br>                <span class="hljs-keyword">return</span> index;<br>            &#125;<br><br>            index++;<br>            currentNode = currentNode.next;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;;<br><br>    <span class="hljs-comment">// 如果链表中不包含任何元素，返回 true，如果链表长度大于 0，返回 false</span><br>    <span class="hljs-keyword">this</span>.isEmpty = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">return</span> length === <span class="hljs-number">0</span>;<br>    &#125;;<br><br>    <span class="hljs-comment">// 返回链表包含的元素个数，与数组的 length 属性类似</span><br>    <span class="hljs-keyword">this</span>.size = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">return</span> length;<br>    &#125;;<br><br>    <span class="hljs-comment">// 获取链表头部元素</span><br>    <span class="hljs-keyword">this</span>.getHead = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">return</span> head.element;<br>    &#125;;<br><br>    <span class="hljs-comment">// 由于链表使用了 Node 类，就需要重写继承自 JavaScript 对象默认的 toString() 方法，让其只输出元素的值</span><br>    <span class="hljs-keyword">this</span>.toString = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">var</span> currentNode = head;<br>        <span class="hljs-keyword">var</span> string = <span class="hljs-string">''</span>;<br><br>        <span class="hljs-keyword">while</span> (currentNode) &#123;<br>            string += <span class="hljs-string">','</span> + currentNode.element;<br>            currentNode = currentNode.next;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> string.slice(<span class="hljs-number">1</span>);<br>    &#125;;<br><br>    <span class="hljs-comment">// 打印链表数据</span><br>    <span class="hljs-keyword">this</span>.print = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.toString());<br>    &#125;;<br><br>    <span class="hljs-comment">// 获取整个链表</span><br>    <span class="hljs-keyword">this</span>.list = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'head: '</span>, head);<br>        <span class="hljs-keyword">return</span> head;<br>    &#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs processing"><span class="hljs-comment">// 创建单向链表实例</span><br>var singlyLinked = <span class="hljs-keyword">new</span> SinglyLinkedList();<br>console.<span class="hljs-built_in">log</span>(singlyLinked.removeAt(<span class="hljs-number">0</span>)); <span class="hljs-comment">// false</span><br>console.<span class="hljs-built_in">log</span>(singlyLinked.isEmpty()); <span class="hljs-comment">// true</span><br>singlyLinked.<span class="hljs-built_in">append</span>(<span class="hljs-string">'Tom'</span>);<br>singlyLinked.<span class="hljs-built_in">append</span>(<span class="hljs-string">'Peter'</span>);<br>singlyLinked.<span class="hljs-built_in">append</span>(<span class="hljs-string">'Paul'</span>);<br>singlyLinked.<span class="hljs-built_in">print</span>(); <span class="hljs-comment">// "Tom,Peter,Paul"</span><br>singlyLinked.insert(<span class="hljs-number">0</span>, <span class="hljs-string">'Susan'</span>);<br>singlyLinked.<span class="hljs-built_in">print</span>(); <span class="hljs-comment">// "Susan,Tom,Peter,Paul"</span><br>singlyLinked.insert(<span class="hljs-number">1</span>, <span class="hljs-string">'Jack'</span>);<br>singlyLinked.<span class="hljs-built_in">print</span>(); <span class="hljs-comment">// "Susan,Jack,Tom,Peter,Paul"</span><br>console.<span class="hljs-built_in">log</span>(singlyLinked.getHead()); <span class="hljs-comment">// "Susan"</span><br>console.<span class="hljs-built_in">log</span>(singlyLinked.isEmpty()); <span class="hljs-comment">// false</span><br>console.<span class="hljs-built_in">log</span>(singlyLinked.indexOf(<span class="hljs-string">'Peter'</span>)); <span class="hljs-comment">// 3</span><br>console.<span class="hljs-built_in">log</span>(singlyLinked.indexOf(<span class="hljs-string">'Cris'</span>)); <span class="hljs-comment">// -1</span><br>singlyLinked.remove(<span class="hljs-string">'Tom'</span>);<br>singlyLinked.removeAt(<span class="hljs-number">2</span>);<br>singlyLinked.<span class="hljs-built_in">print</span>(); <span class="hljs-comment">// "Susan,Jack,Paul"</span><br>singlyLinked.list(); <span class="hljs-comment">// 具体控制台</span><br></code></pre></td></tr></table></figure>
+
+<p>整个链表数据在 JavaScript 里是怎样的呢 ？</p>
+<p>为了看这个数据，特意写了个 list 函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 获取整个链表</span><br>    <span class="hljs-keyword">this</span>.list = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'head: '</span>, head);<br>        <span class="hljs-keyword">return</span> head;<br>    &#125;;<br></code></pre></td></tr></table></figure>
+
+<p>重点上上面的最后一行代码： singlyLinked.list() ，打印的数据如下：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12890819-c025219865a1c7de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="img"></p>
+<p>所以，在 JavaScript 中，单链表的真实数据有点类似于对象，实际上是 Node 类生成的实例。</p>
+<h3 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h3><p>单向链表只有一个方向，结点只有一个后继指针 next 指向后面的结点。 而双向链表，它支持两个方向，每个结点不止有一个后继指针 next 指向后面的结点，还有一个前驱指针 prev 指向前面的结点。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12890819-ba82fe4a414d3372.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="双向链表"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12890819-cebffc624a552030.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="插入"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12890819-9d527b59279bbb0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="删除"></p>
+<p><strong>单向链表与又向链表比较</strong></p>
+<ul>
+<li>双向链表需要额外的两个空间来存储后继结点和前驱结点的地址。 所以，如果存储同样多的数据，双向链表要比单链表占用更多的内存空间。 虽然两个指针比较浪费存储空间，但可以支持双向遍历，这样也带来了双向链表操作的灵活性。</li>
+<li>双向链表提供了两种迭代列表的方法：<strong>从头到尾，或者从尾到头</strong>。 我们可以访问一个特定节点的下一个或前一个元素。</li>
+<li>在单向链表中，如果迭代链表时错过了要找的元素，就需要回到链表起点，重新开始迭代。</li>
+<li>在双向链表中，可以从任一节点，向前或向后迭代，这是双向链表的一个优点。</li>
+<li>所以，双向链表可以支持 O(1) 时间复杂度的情况下找到前驱结点，正是这样的特点，也使双向链表在某些情况下的插入、删除等操作都要比单链表简单、高效。</li>
+</ul>
+<h4 id="实现-4"><a href="#实现-4" class="headerlink" title="实现"></a>实现</h4><p>具体代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 创建双向链表 DoublyLinkedList 类</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DoublyLinkedList</span>(<span class="hljs-params"></span>) </span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Node</span>(<span class="hljs-params">element</span>) </span>&#123;<br>    <span class="hljs-keyword">this</span>.element = element; <span class="hljs-comment">//当前节点的元素</span><br>    <span class="hljs-keyword">this</span>.next = <span class="hljs-literal">null</span>; <span class="hljs-comment">//下一个节点指针</span><br>    <span class="hljs-keyword">this</span>.previous = <span class="hljs-literal">null</span>; <span class="hljs-comment">//上一个节点指针</span><br>  &#125;<br><br>  <span class="hljs-keyword">var</span> length = <span class="hljs-number">0</span>; <span class="hljs-comment">// 链表长度</span><br>  <span class="hljs-keyword">var</span> head = <span class="hljs-literal">null</span>; <span class="hljs-comment">// 链表头部</span><br>  <span class="hljs-keyword">var</span> tail = <span class="hljs-literal">null</span>; <span class="hljs-comment">// 链表尾部</span><br><br>  <span class="hljs-comment">// 向链表尾部添加一个新的项</span><br>  <span class="hljs-keyword">this</span>.append = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">element</span>) </span>&#123;<br>    <span class="hljs-keyword">var</span> node = <span class="hljs-keyword">new</span> Node(element);<br>    <span class="hljs-keyword">var</span> currentNode = tail;<br><br>    <span class="hljs-comment">// 判断是否为空链表</span><br>    <span class="hljs-keyword">if</span> (currentNode === <span class="hljs-literal">null</span>) &#123;<br>      <span class="hljs-comment">// 空链表</span><br>      head = node;<br>      tail = node;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      currentNode.next = node;<br>      node.prev = currentNode;<br>      tail = node;<br>    &#125;<br><br>    length++;<br>  &#125;;<br><br>  <span class="hljs-comment">// 向链表特定位置插入一个新的项</span><br>  <span class="hljs-keyword">this</span>.insert = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">position, element</span>) </span>&#123;<br>    <span class="hljs-keyword">if</span> (position &lt; <span class="hljs-number">0</span> &amp;&amp; position &gt; length) &#123;<br>      <span class="hljs-comment">// 越界</span><br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-keyword">var</span> node = <span class="hljs-keyword">new</span> Node(element);<br>      <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;<br>      <span class="hljs-keyword">var</span> currentNode = head;<br>      <span class="hljs-keyword">var</span> previousNode;<br><br>      <span class="hljs-keyword">if</span> (position === <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">if</span> (!head) &#123;<br>          head = node;<br>          tail = node;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>          node.next = currentNode;<br>          currentNode.prev = node;<br>          head = node;<br>        &#125;<br>      &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (position === length) &#123;<br>        <span class="hljs-keyword">this</span>.append(element);<br>      &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">while</span> (index &lt; position) &#123;<br>          index++;<br>          previousNode = currentNode;<br>          currentNode = currentNode.next;<br>        &#125;<br><br>        previousNode.next = node;<br>        node.next = currentNode;<br><br>        node.prev = previousNode;<br>        currentNode.prev = node;<br>      &#125;<br><br>      length++;<br><br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>  &#125;;<br><br>  <span class="hljs-comment">// 从链表的特定位置移除一项</span><br>  <span class="hljs-keyword">this</span>.removeAt = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">position</span>) </span>&#123;<br>    <span class="hljs-keyword">if</span> ((position &lt; <span class="hljs-number">0</span> &amp;&amp; position &gt;= length) || length === <span class="hljs-number">0</span>) &#123;<br>      <span class="hljs-comment">// 越界</span><br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-keyword">var</span> currentNode = head;<br>      <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;<br>      <span class="hljs-keyword">var</span> previousNode;<br><br>      <span class="hljs-keyword">if</span> (position === <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-comment">// 移除第一项</span><br>        <span class="hljs-keyword">if</span> (length === <span class="hljs-number">1</span>) &#123;<br>          head = <span class="hljs-literal">null</span>;<br>          tail = <span class="hljs-literal">null</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>          head = currentNode.next;<br>          head.prev = <span class="hljs-literal">null</span>;<br>        &#125;<br>      &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (position === length - <span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-comment">// 移除最后一项</span><br>        <span class="hljs-keyword">if</span> (length === <span class="hljs-number">1</span>) &#123;<br>          head = <span class="hljs-literal">null</span>;<br>          tail = <span class="hljs-literal">null</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>          currentNode = tail;<br>          tail = currentNode.prev;<br>          tail.next = <span class="hljs-literal">null</span>;<br>        &#125;<br>      &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">while</span> (index &lt; position) &#123;<br>          index++;<br>          previousNode = currentNode;<br>          currentNode = currentNode.next;<br>        &#125;<br>        previousNode.next = currentNode.next;<br>        previousNode = currentNode.next.prev;<br>      &#125;<br><br>      length--;<br><br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>  &#125;;<br><br>  <span class="hljs-comment">// 从链表中移除指定项</span><br>  <span class="hljs-keyword">this</span>.remove = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">element</span>) </span>&#123;<br>    <span class="hljs-keyword">var</span> index = <span class="hljs-keyword">this</span>.indexOf(element);<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.removeAt(index);<br>  &#125;;<br><br>  <span class="hljs-comment">// 返回元素在链表的索引，如果链表中没有该元素则返回 -1</span><br>  <span class="hljs-keyword">this</span>.indexOf = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">element</span>) </span>&#123;<br>    <span class="hljs-keyword">var</span> currentNode = head;<br>    <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">while</span> (currentNode) &#123;<br>      <span class="hljs-keyword">if</span> (currentNode.element === element) &#123;<br>        <span class="hljs-keyword">return</span> index;<br>      &#125;<br><br>      index++;<br>      currentNode = currentNode.next;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>  &#125;;<br><br>  <span class="hljs-comment">// 如果链表中不包含任何元素，返回 true ，如果链表长度大于 0 ，返回 false</span><br>  <span class="hljs-keyword">this</span>.isEmpty = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> length == <span class="hljs-number">0</span>;<br>  &#125;;<br><br>  <span class="hljs-comment">// 返回链表包含的元素个数，与数组的 length 属性类似</span><br>  <span class="hljs-keyword">this</span>.size = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> length;<br>  &#125;;<br><br>  <span class="hljs-comment">// 获取链表头部元素</span><br>  <span class="hljs-keyword">this</span>.getHead = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> head.element;<br>  &#125;;<br><br>  <span class="hljs-comment">// 由于链表使用了 Node 类，就需要重写继承自 JavaScript 对象默认的 toString() 方法，让其只输出元素的值</span><br>  <span class="hljs-keyword">this</span>.toString = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">var</span> currentNode = head;<br>    <span class="hljs-keyword">var</span> string = <span class="hljs-string">''</span>;<br><br>    <span class="hljs-keyword">while</span> (currentNode) &#123;<br>      string += <span class="hljs-string">','</span> + currentNode.element;<br>      currentNode = currentNode.next;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> string.slice(<span class="hljs-number">1</span>);<br>  &#125;;<br><br>  <span class="hljs-keyword">this</span>.print = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.toString());<br>  &#125;;<br><br>  <span class="hljs-comment">// 获取整个链表</span><br>  <span class="hljs-keyword">this</span>.list = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'head: '</span>, head);<br>    <span class="hljs-keyword">return</span> head;<br>  &#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs processing"><span class="hljs-comment">// 创建双向链表</span><br>var doublyLinked = <span class="hljs-keyword">new</span> DoublyLinkedList();<br>console.<span class="hljs-built_in">log</span>(doublyLinked.isEmpty()); <span class="hljs-comment">// true</span><br>doublyLinked.<span class="hljs-built_in">append</span>(<span class="hljs-string">'Tom'</span>);<br>doublyLinked.<span class="hljs-built_in">append</span>(<span class="hljs-string">'Peter'</span>);<br>doublyLinked.<span class="hljs-built_in">append</span>(<span class="hljs-string">'Paul'</span>);<br>doublyLinked.<span class="hljs-built_in">print</span>(); <span class="hljs-comment">// "Tom,Peter,Paul"</span><br>doublyLinked.insert(<span class="hljs-number">0</span>, <span class="hljs-string">'Susan'</span>);<br>doublyLinked.<span class="hljs-built_in">print</span>(); <span class="hljs-comment">// "Susan,Tom,Peter,Paul"</span><br>doublyLinked.insert(<span class="hljs-number">1</span>, <span class="hljs-string">'Jack'</span>);<br>doublyLinked.<span class="hljs-built_in">print</span>(); <span class="hljs-comment">// "Susan,Jack,Tom,Peter,Paul"</span><br>console.<span class="hljs-built_in">log</span>(doublyLinked.getHead()); <span class="hljs-comment">// "Susan"</span><br>console.<span class="hljs-built_in">log</span>(doublyLinked.isEmpty()); <span class="hljs-comment">// false</span><br>console.<span class="hljs-built_in">log</span>(doublyLinked.indexOf(<span class="hljs-string">'Peter'</span>)); <span class="hljs-comment">// 3</span><br>console.<span class="hljs-built_in">log</span>(doublyLinked.indexOf(<span class="hljs-string">'Cris'</span>)); <span class="hljs-comment">// -1</span><br>doublyLinked.remove(<span class="hljs-string">'Tom'</span>);<br>doublyLinked.removeAt(<span class="hljs-number">2</span>);<br>doublyLinked.<span class="hljs-built_in">print</span>(); <span class="hljs-comment">// "Susan,Jack,Paul"</span><br>doublyLinked.list(); <span class="hljs-comment">// 请看控制台输出</span><br></code></pre></td></tr></table></figure>
+
+<p>整个链表数据在 JavaScript 里是怎样的呢 ？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 获取整个链表</span><br>  <span class="hljs-keyword">this</span>.list = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'head: '</span>, head);<br>    <span class="hljs-keyword">return</span> head;<br>  &#125;;<br></code></pre></td></tr></table></figure>
+
+<p>调用 doublyLinked.list(); .</p>
+<p>控制台输出如下：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12890819-16692def5ba7cd98.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="img"></p>
+<p>链表代码实现的关键是弄清楚：前节点与后节点与边界。</p>
+<h3 id="循环链表"><a href="#循环链表" class="headerlink" title="循环链表"></a>循环链表</h3><p>循环链表是一种特殊的单链表。 循环链表和单链表相似，节点类型都是一样。 唯一的区别是，在创建循环链表的时候，让其<code>头节点的 next 属性指向它本身</code>。 即：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">head.next</span> = head<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>这种行为会导致链表中每个节点的 next 属性都指向链表的头节点，换句话说，也就是<strong>链表的尾节点指向了头节点，形成了一个循环链表</strong>。如下图所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12890819-9ec5e28b87d0d144.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="循环链表"></p>
+<p><strong>循环链表</strong>：在单链表的基础上，将尾节点的指针指向头结点，就构成了一个循环链表。环形链表从任意一个节点开始，都可以遍历整个链表。</p>
+<p>代码：</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br></pre></td><td class="code"><pre><code class="hljs xquery">// 循环链表<br><span class="hljs-keyword">function</span> CircularLinkedList() &#123;<br>    // 节点<br>    <span class="hljs-keyword">function</span> Node(<span class="hljs-keyword">element</span>) &#123;<br>        this.<span class="hljs-keyword">element</span> = <span class="hljs-keyword">element</span>; // 当前节点的元素<br>        this.next = null; // 下一个节点指针<br>    &#125;<br><br>    var length = 0,<br>        head = null;<br><br>    this.append = function(<span class="hljs-keyword">element</span>) &#123;<br>        var <span class="hljs-type">node</span> = new Node(<span class="hljs-keyword">element</span>),<br>            current;<br><br>        if (!head) &#123;<br>           <span class="hljs-built_in"> head</span> = <span class="hljs-type">node</span>;<br>            // 头的指针指向自己<br>            <span class="hljs-type">node</span>.<span class="hljs-keyword">next</span> =<span class="hljs-built_in"> head</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            current =<span class="hljs-built_in"> head</span>;<br><br>            while (current.<span class="hljs-keyword">next</span> !==<span class="hljs-built_in"> head</span>) &#123;<br>                current = current.<span class="hljs-keyword">next</span>;<br>            &#125;<br><br>            current.<span class="hljs-keyword">next</span> = <span class="hljs-type">node</span>;<br>            // 最后一个节点指向头节点<br>            <span class="hljs-type">node</span>.<span class="hljs-keyword">next</span> =<span class="hljs-built_in"> head</span>;<br>        &#125;<br><br>        length++;<br>        <span class="hljs-keyword">return</span><span class="hljs-built_in"> true</span>;<br>    &#125;;<br><br>    this.<span class="hljs-keyword">insert</span> = <span class="hljs-keyword">function</span><span class="hljs-built_in">(position</span>, <span class="hljs-keyword">element</span>) &#123;<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">(position</span> &gt; -<span class="hljs-number">1</span> &amp;&amp;<span class="hljs-built_in"> position</span> &lt; length) &#123;<br>            var <span class="hljs-type">node</span> = new Node(<span class="hljs-keyword">element</span>),<br>                index = 0,<br>                current = head,<br>                previous;<br><br>            if (position === 0) &#123;<br>                // 头节点指向自己<br>                <span class="hljs-type">node</span>.<span class="hljs-keyword">next</span> =<span class="hljs-built_in"> head</span>;<br>               <span class="hljs-built_in"> head</span> = <span class="hljs-type">node</span>;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                while (index++ &lt;<span class="hljs-built_in"> position</span>) &#123;<br>                    <span class="hljs-keyword">previous</span> = current;<br>                    current = current.<span class="hljs-keyword">next</span>;<br>                &#125;<br>                <span class="hljs-keyword">previous</span>.<span class="hljs-keyword">next</span> = <span class="hljs-type">node</span>;<br>                <span class="hljs-type">node</span>.<span class="hljs-keyword">next</span> = current;<br>            &#125;<br>            length++;<br>            <span class="hljs-keyword">return</span><span class="hljs-built_in"> true</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">return</span><span class="hljs-built_in"> false</span>;<br>        &#125;<br>    &#125;;<br>    this.removeAt = <span class="hljs-keyword">function</span><span class="hljs-built_in">(position</span>) &#123;<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">(position</span> &gt; -<span class="hljs-number">1</span> &amp;&amp;<span class="hljs-built_in"> position</span> &lt; length) &#123;<br>            var current =<span class="hljs-built_in"> head</span>,<br>                <span class="hljs-keyword">previous</span>,<br>                index = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">(position</span> === <span class="hljs-number">0</span>) &#123;<br>               <span class="hljs-built_in"> head</span> = current.<span class="hljs-keyword">next</span>;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                while (index++ &lt;<span class="hljs-built_in"> position</span>) &#123;<br>                    <span class="hljs-keyword">previous</span> = current;<br>                    current = current.<span class="hljs-keyword">next</span>;<br>                &#125;<br>                <span class="hljs-keyword">previous</span>.<span class="hljs-keyword">next</span> = current.<span class="hljs-keyword">next</span>;<br>            &#125;<br>            length--;<br>            <span class="hljs-keyword">return</span> current.<span class="hljs-keyword">element</span>;<br>        &#125; else &#123;<br>            <span class="hljs-keyword">return</span><span class="hljs-built_in"> false</span>;<br>        &#125;<br>    &#125;;<br>    this<span class="hljs-built_in">.remove</span> = <span class="hljs-keyword">function</span>(<span class="hljs-keyword">element</span>) &#123;<br>        var current =<span class="hljs-built_in"> head</span>,<br>            <span class="hljs-keyword">previous</span>,<br>            indexCheck = <span class="hljs-number">0</span>;<br>        while (current &amp;&amp; indexCheck &lt; length) &#123;<br>            <span class="hljs-keyword">if</span> (current.<span class="hljs-keyword">element</span> === <span class="hljs-keyword">element</span>) &#123;<br>                <span class="hljs-keyword">if</span> (indexCheck == <span class="hljs-number">0</span>) &#123;<br>                   <span class="hljs-built_in"> head</span> = current.<span class="hljs-keyword">next</span>;<br>                    length--;<br>                    <span class="hljs-keyword">return</span><span class="hljs-built_in"> true</span>;<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    <span class="hljs-keyword">previous</span>.<span class="hljs-keyword">next</span> = current.<span class="hljs-keyword">next</span>;<br>                    length--;<br>                    <span class="hljs-keyword">return</span><span class="hljs-built_in"> true</span>;<br>                &#125;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">previous</span> = current;<br>                current = current.<span class="hljs-keyword">next</span>;<br>                indexCheck++;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span><span class="hljs-built_in"> false</span>;<br>    &#125;;<br>    this<span class="hljs-built_in">.remove</span> = <span class="hljs-keyword">function</span>() &#123;<br>        <span class="hljs-keyword">if</span> (length === <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-keyword">return</span><span class="hljs-built_in"> false</span>;<br>        &#125;<br>        var current =<span class="hljs-built_in"> head</span>,<br>            <span class="hljs-keyword">previous</span>,<br>            indexCheck = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">if</span> (length === <span class="hljs-number">1</span>) &#123;<br>           <span class="hljs-built_in"> head</span> = null;<br>            length--;<br>            <span class="hljs-keyword">return</span> current.<span class="hljs-keyword">element</span>;<br>        &#125;<br>        while (indexCheck++ &lt; length) &#123;<br>            <span class="hljs-keyword">previous</span> = current;<br>            current = current.<span class="hljs-keyword">next</span>;<br>        &#125;<br>        <span class="hljs-keyword">previous</span>.<span class="hljs-keyword">next</span> =<span class="hljs-built_in"> head</span>;<br>        length--;<br>        <span class="hljs-keyword">return</span> current.<span class="hljs-keyword">element</span>;<br>    &#125;;<br>    this.indexOf = function(<span class="hljs-keyword">element</span>) &#123;<br>        var current =<span class="hljs-built_in"> head</span>,<br>            index = <span class="hljs-number">0</span>;<br>        while (current &amp;&amp; index &lt; length) &#123;<br>            <span class="hljs-keyword">if</span> (current.<span class="hljs-keyword">element</span> === <span class="hljs-keyword">element</span>) &#123;<br>                <span class="hljs-keyword">return</span> index;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                index++;<br>                current = current.<span class="hljs-keyword">next</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>    &#125;;<br>    this.isEmpty = <span class="hljs-keyword">function</span>() &#123;<br>        <span class="hljs-keyword">return</span> length === <span class="hljs-number">0</span>;<br>    &#125;;<br>    this.size = <span class="hljs-keyword">function</span>() &#123;<br>        <span class="hljs-keyword">return</span> length;<br>    &#125;;<br><br>    // 由于链表使用了 Node 类，就需要重写继承自 JavaScript 对象默认的 toString() 方法，让其只输出元素的值<br>    this.toString = <span class="hljs-keyword">function</span>() &#123;<br>        var current =<span class="hljs-built_in"> head</span>,<br>           <span class="hljs-built_in"> string</span> = <span class="hljs-string">''</span>,<br>            indexCheck = <span class="hljs-number">0</span>;<br>        while (current &amp;&amp; indexCheck &lt; length) &#123;<br>           <span class="hljs-built_in"> string</span> += <span class="hljs-string">','</span> + current.<span class="hljs-keyword">element</span>;<br>            current = current.next;<br>            indexCheck++;<br>        &#125;<br>        return string.slice(1);<br>    &#125;;<br><br>    // 获取链表头部元素<br>    this.getHead = function() &#123;<br>        <span class="hljs-keyword">return</span><span class="hljs-built_in"> head</span>.<span class="hljs-keyword">element</span>;<br>    &#125;;<br><br>    // 打印链表数据<br>    this.print = function() &#123;<br>        console.log(this.toString());<br>    &#125;;<br><br>    // 获取整个链表<br>    this.list = <span class="hljs-keyword">function</span>() &#123;<br>        console.log(<span class="hljs-string">'head: '</span>,<span class="hljs-built_in"> head</span>);<br>        <span class="hljs-keyword">return</span><span class="hljs-built_in"> head</span>;<br>    &#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs processing"><span class="hljs-comment">// 创建单向链表实例</span><br>var circularLinked = <span class="hljs-keyword">new</span> CircularLinkedList();<br>console.<span class="hljs-built_in">log</span>(circularLinked.removeAt(<span class="hljs-number">0</span>)); <span class="hljs-comment">// false</span><br>console.<span class="hljs-built_in">log</span>(circularLinked.isEmpty()); <span class="hljs-comment">// true</span><br>circularLinked.<span class="hljs-built_in">append</span>(<span class="hljs-string">'Tom'</span>);<br>circularLinked.<span class="hljs-built_in">append</span>(<span class="hljs-string">'Peter'</span>);<br>circularLinked.<span class="hljs-built_in">append</span>(<span class="hljs-string">'Paul'</span>);<br>circularLinked.<span class="hljs-built_in">print</span>(); <span class="hljs-comment">// "Tom,Peter,Paul"</span><br>circularLinked.insert(<span class="hljs-number">0</span>, <span class="hljs-string">'Susan'</span>);<br>circularLinked.<span class="hljs-built_in">print</span>(); <span class="hljs-comment">// "Susan,Tom,Peter,Paul"</span><br>circularLinked.insert(<span class="hljs-number">1</span>, <span class="hljs-string">'Jack'</span>);<br>circularLinked.<span class="hljs-built_in">print</span>(); <span class="hljs-comment">// "Susan,Jack,Tom,Peter,Paul"</span><br>console.<span class="hljs-built_in">log</span>(circularLinked.getHead()); <span class="hljs-comment">// "Susan"</span><br>console.<span class="hljs-built_in">log</span>(circularLinked.isEmpty()); <span class="hljs-comment">// false</span><br>console.<span class="hljs-built_in">log</span>(circularLinked.indexOf(<span class="hljs-string">'Peter'</span>)); <span class="hljs-comment">// 3</span><br>console.<span class="hljs-built_in">log</span>(circularLinked.indexOf(<span class="hljs-string">'Cris'</span>)); <span class="hljs-comment">// -1</span><br>circularLinked.remove(<span class="hljs-string">'Tom'</span>);<br>circularLinked.removeAt(<span class="hljs-number">2</span>);<br>circularLinked.<span class="hljs-built_in">print</span>(); <span class="hljs-comment">// "Susan,Jack,Paul"</span><br>circularLinked.list(); <span class="hljs-comment">// 具体控制台</span><br></code></pre></td></tr></table></figure>
+
+<p>整个链表数据在 JavaScript 里是怎样的呢 ？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 获取整个链表</span><br>  <span class="hljs-keyword">this</span>.list = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'head: '</span>, head);<br>    <span class="hljs-keyword">return</span> head;<br>  &#125;;<br></code></pre></td></tr></table></figure>
+
+<p>调用 circularLinked.list() 。</p>
+<p>控制台输出如下：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12890819-b91c5f932a9ffba5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" alt="img"></p>
+<p>你知道大家发现没有，为什么从 1 - 4 - 1 了，还有 next 节点，而且是还可以一直点 next ，重复的展开下去，这正是 <strong>循环</strong> 的原因。</p>
+<p><strong>链表总结</strong></p>
+<ul>
+<li>写链表代码是最考验逻辑思维能力的，要熟练链表，只有 <strong>多写多练，没有捷径</strong>。</li>
+<li>因为，链表代码到处都是指针的操作、边界条件的处理，稍有不慎就容易产生 Bug。</li>
+<li>链表代码写得好坏，可以看出一个人写代码是否够细心，考虑问题是否全面，思维是否缜密。</li>
+<li>所以，这也是很多面试官喜欢让人手写链表代码的原因。</li>
+<li>一定要自己写代码实现一下，才有效果。</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%89%8D%E7%AB%AF/">前端</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/10/01/js%E6%8B%B7%E8%B4%9D/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">js拷贝</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2018/09/19/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%BF%E9%97%AE/">
+                        <span class="hidden-mobile">浏览器访问</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
